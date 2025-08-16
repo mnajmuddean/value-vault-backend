@@ -1,4 +1,3 @@
-import { logger } from "@/config/logger";
 import { AppError, isAppError } from "@/utils/appError";
 import { ErrorCode } from "@/utils/errorCodes";
 import { ENV } from "@/config/env";
@@ -22,9 +21,9 @@ export class ErrorMonitoringService {
     const errorLog = this.formatError(error, request);
 
     if (isAppError(error) && error.isOperational) {
-      logger.warn(errorLog);
+      console.warn(errorLog);
     } else {
-      logger.error(errorLog);
+      console.error(errorLog);
     }
 
     // Here you could add integration with external error monitoring services
@@ -62,16 +61,16 @@ export class ErrorMonitoringService {
   }
 
   private handleUncaughtException = (error: Error) => {
-    logger.error("UNCAUGHT EXCEPTION! Shutting down...", {
+    console.error("UNCAUGHT EXCEPTION! Shutting down...", {
       error: this.formatError(error),
     });
     process.exit(1);
   };
 
   private handleUnhandledRejection = (reason: any) => {
-    logger.error("UNHANDLED REJECTION! Shutting down...", {
+    console.error("UNHANDLED REJECTION! Shutting down...", {
       error: this.formatError(
-        reason instanceof Error ? reason : new Error(String(reason))
+        reason instanceof Error ? reason : new Error(String(reason)),
       ),
     });
     process.exit(1);

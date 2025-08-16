@@ -28,14 +28,19 @@ This project adheres to a Code of Conduct that all contributors are expected to 
 
 1. Fork the repository
 2. Clone your fork:
+
 ```bash
-git clone https://github.com/mzubair481/express-boilerplate.git
+git clone https://github.com/mzubair481/ValueVault.git
 ```
+
 3. Create a new branch:
+
 ```bash
 git checkout -b feature/your-feature-name
 ```
+
 4. Set up development environment:
+
 ```bash
 npm install
 cp .env.example .env

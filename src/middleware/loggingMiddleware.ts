@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { logger } from "@/config/logger";
 
 export const loggingMiddleware = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const startTime = Date.now();
 
@@ -24,9 +23,9 @@ export const loggingMiddleware = (
     };
 
     if (res.statusCode >= 400) {
-      logger.error("Request failed", logData);
+      console.error("Request failed", logData);
     } else {
-      logger.info("Request completed", logData);
+      console.info("Request completed", logData);
     }
   });
 

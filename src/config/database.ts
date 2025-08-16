@@ -1,23 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import { ENV } from "@/config/env";
+// Make sure to install the 'pg' package
+import { pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
+import * as schema from "../db/schema";
 
-const prisma = new PrismaClient({
-  // log only in development
-  log: ENV.NODE_ENV === "development" ? ["query", "error", "warn"] : [],
-  datasources: {
-    db: {
-      url: ENV.MYSQL_DATABASE_URL,
-    },
-  },
-});
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-// Soft shutdown handler
-const handleShutdown = async () => {
-  console.log("Shutting down database connection");
-  await prisma.$disconnect();
-};
-
-process.on("SIGTERM", handleShutdown);
-process.on("SIGINT", handleShutdown);
-
-export default prisma;
+export const db = drizzle({ client: pool, schema: schema });

@@ -1,8 +1,8 @@
-import * as dotenv from "dotenv";
-dotenv.config({ path: ".env" });
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '.env' });
 
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 async function main() {
@@ -12,25 +12,25 @@ async function main() {
 
   if (userCount === 0) {
     // Create initial admin user
-    const hashedPassword = await bcrypt.hash("Password123!", 10);
+    const hashedPassword = await bcrypt.hash('Password123!', 10);
     const adminUser = await prisma.user.create({
       data: {
-        name: "Admin User",
-        email: "admin@express-boilerplate.com",
+        name: 'Admin User',
+        email: 'admin@ValueVault.com',
         password: hashedPassword,
-        role: "ADMIN",
+        role: 'ADMIN',
       },
     });
 
-    console.log("Production seed completed:", adminUser);
+    console.log('Production seed completed:', adminUser);
   } else {
-    console.log("Skipping production seed - data already exists");
+    console.log('Skipping production seed - data already exists');
   }
 }
 
 main()
   .catch((e) => {
-    console.error("Error seeding production data:", e);
+    console.error('Error seeding production data:', e);
     process.exit(1);
   })
   .finally(async () => {

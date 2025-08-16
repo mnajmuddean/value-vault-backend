@@ -52,28 +52,33 @@
 ### Local Development
 
 1. Clone the repository:
+
 ```bash
-git clone https://github.com/mzubair481/express-boilerplate.git
-cd express-boilerplate
+git clone https://github.com/mzubair481/ValueVault.git
+cd ValueVault
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Set up environment variables:
+
 ```bash
 cp .env.example .env
 ```
 
 4. Set up the database:
+
 ```bash
 npm run migrate:dev
 npm run seed:dev
 ```
 
 5. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -99,6 +104,7 @@ npm run docker:dev:down
 #### Development with Hot Reload
 
 The development environment is configured with:
+
 - Nodemon for automatic server restart
 - Volume mounts for real-time code changes
 - TypeScript compilation on save
@@ -109,8 +115,8 @@ The development environment is configured with:
 services:
   api:
     volumes:
-      - ./src:/app/src:delegated        # Source code
-      - ./prisma:/app/prisma:delegated  # Prisma schema
+      - ./src:/app/src:delegated # Source code
+      - ./prisma:/app/prisma:delegated # Prisma schema
       - api_node_modules:/app/node_modules
     environment:
       - NODE_ENV=development
@@ -119,6 +125,7 @@ services:
 ```
 
 This will start:
+
 - Express API server (http://localhost:4300)
 - MySQL database (port 3306)
 - Prometheus metrics (http://localhost:9090)
@@ -130,7 +137,7 @@ This will start:
 
 1. **Grafana**:
    - URL: http://localhost:3000
-   - Default credentials: 
+   - Default credentials:
      - Username: `admin`
      - Password: `admin`
    - Pre-configured dashboards:
@@ -218,6 +225,7 @@ http://localhost:4300/api-docs
 ### API Endpoints
 
 #### Authentication
+
 - `POST /api/auth/signup` - Register new user
 - `POST /api/auth/login` - User login
 - `POST /api/auth/refresh` - Refresh access token
@@ -228,6 +236,7 @@ http://localhost:4300/api-docs
 - `POST /api/auth/reset-password/:token` - Reset password
 
 #### Users
+
 - `GET /api/users` - Get all users (Admin only)
 - `GET /api/users/:id` - Get user by ID
 - `POST /api/users` - Create user (Admin only)
@@ -235,6 +244,7 @@ http://localhost:4300/api-docs
 - `DELETE /api/users/:id` - Delete user (Admin only)
 
 #### Monitoring
+
 - `GET /health` - Service health check
 - `GET /api/monitoring/metrics` - Prometheus metrics
 - `GET /api/monitoring/readiness` - Readiness probe
@@ -251,6 +261,7 @@ Authorization: Bearer <your_jwt_token>
 ### Request/Response Examples
 
 #### User Registration
+
 ```json
 POST /api/auth/signup
 {
@@ -272,6 +283,7 @@ Response 201:
 ```
 
 #### User Login
+
 ```json
 POST /api/auth/login
 {
@@ -312,6 +324,7 @@ The API uses standardized error responses:
 ### Monitoring
 
 The API provides Prometheus metrics at `/api/monitoring/metrics` including:
+
 - HTTP request duration
 - Request counts by endpoint
 - Error rates
@@ -340,6 +353,7 @@ The API provides Prometheus metrics at `/api/monitoring/metrics` including:
   - Secure URL: `wss://your-domain.com` (production)
 
 - Message Format:
+
 ```javascript
 {
   "type": "message_type",
@@ -351,16 +365,18 @@ The API provides Prometheus metrics at `/api/monitoring/metrics` including:
 
 - Supported Message Types:
   - `ping` - Health check ping
+
     ```javascript
     // Client -> Server
     { "type": "ping" }
-    
+
     // Server -> Client
-    { 
+    {
       "type": "pong",
       "data": { "timestamp": 1234567890 }
     }
     ```
+
   - `connection` - Initial connection confirmation
     ```javascript
     // Server -> Client
@@ -388,7 +404,7 @@ ws.onopen = () => {
 ws.onmessage = (event) => {
   const message = JSON.parse(event.data);
   console.log('Received:', message);
-  
+
   // Handle different message types
   switch (message.type) {
     case 'connection':

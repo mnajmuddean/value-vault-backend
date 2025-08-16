@@ -1,51 +1,35 @@
 import app from "@/app";
 import { ENV } from "@/config/env";
-import { logger } from "@/config/logger";
-import prisma from "@/config/database";
-import { WebSocketService } from "@/services/websocket.service";
+import { db } from "@/config/database";
 
 const server = app.listen(ENV.PORT, () => {
-  logger.info(`Server running on port ${ENV.PORT} in ${ENV.NODE_ENV} mode`);
+  console.log(`Server running on port ${ENV.PORT} in ${ENV.NODE_ENV} mode`);
 });
-
-// Initialize WebSocket service
-WebSocketService.getInstance(server);
 
 // Graceful shutdown handler
 const shutdown = async () => {
-  logger.info("Shutdown signal received");
+  console.log("Shutdown signal received");
 
-  // Add WebSocket cleanup
-  const wsService = WebSocketService.getInstance();
-  wsService.broadcast({ type: 'shutdown', data: { message: 'Server shutting down' } });
-  
   // Add connection draining
-  app.disable('connection'); // Stop accepting new connections
-  
-  // Add timeout for existing connections
-  const connectionDrainTimeout = setTimeout(() => {
-    logger.warn('Connection drain timeout reached, forcing shutdown');
-    process.exit(1);
-  }, 10000);
-  
+  app.disable("connection"); // Stop accepting new connections
+
   server.close(async () => {
-    logger.info("HTTP server closed");
+    console.log("HTTP server closed");
 
     try {
-      await prisma.$disconnect();
-      logger.info("Database connections closed");
+      console.log("Database connections closed");
 
       process.exit(0);
     } catch (err) {
-      logger.error("Error during shutdown:", err);
+      console.log("Error during shutdown:", err);
       process.exit(1);
     }
   });
 
   // Force shutdown after 30 seconds
   setTimeout(() => {
-    logger.error(
-      "Could not close connections in time, forcefully shutting down"
+    console.log(
+      "Could not close connections in time, forcefully shutting down",
     );
     process.exit(1);
   }, 30000);

@@ -15,7 +15,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_DATABASE: express-boilerplate
+          MYSQL_DATABASE: ValueVault
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -26,8 +26,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "22"
-          cache: "npm"
+          node-version: '22'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -37,7 +37,7 @@ jobs:
           cp .env.example .env
           npm run test
         env:
-          MYSQL_DATABASE_URL: mysql://root@localhost:3306/express-boilerplate
+          MYSQL_DATABASE_URL: mysql://root@localhost:3306/ValueVault
           NODE_ENV: test
           JWT_SECRET: test-jwt-secret
           REFRESH_TOKEN_SECRET: test-refresh-token-secret
@@ -63,4 +63,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: your-username/express-boilerplate:latest
+          tags: your-username/ValueVault:latest
