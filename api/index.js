@@ -65009,19 +65009,6 @@ var envSchema = z.object({
   FRONTEND_URL: z.string().url()
 });
 var ENV = envSchema.parse(process.env);
-if (process.env.NODE_ENV === "production") {
-  const requiredFields = [
-    "SMTP_HOST",
-    "SMTP_PORT",
-    "SMTP_USER",
-    "SMTP_PASSWORD"
-  ];
-  requiredFields.forEach((field) => {
-    if (!process.env[field]) {
-      throw new Error(`Missing required env variable: ${field}`);
-    }
-  });
-}
 
 // src/middleware/securityHeaders.ts
 var setupSecurityHeaders = (app2) => {
