@@ -62,6 +62,10 @@ app.get('/', (req, res) => {
   res.json({ message: '🚀 Hello from ValueVault Backend!' });
 });
 
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
+
 // Health Check
 app.get('/health', (req, res) => {
   res.json({
